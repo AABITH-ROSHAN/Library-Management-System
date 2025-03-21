@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-r from-[#f0f5f9] via-[#c9d6df] to-[#52616b] text-gray-900 font-sans min-h-screen flex items-center justify-center p-8">
+    <div class="container mx-auto p-8 bg-white rounded-xl shadow-2xl w-full max-w-3xl border border-gray-300">
+        <h1 class="text-4xl font-extrabold text-center mb-6 text-[#1e3d59]">Library Management System</h1>
+        
+        {{#if message}}
+        <div class="bg-gradient-to-b from-green-30 via-green-200 to-transparent text-green-900 text-center p-3 rounded-lg shadow-md mb-4">
+            {{message}}
+        </div>
+        {{/if}}
+        
+        <div class="bg-[#f7f9fc] p-6 rounded-lg shadow-md border border-gray-200">
+            {{#if edit_id}}
+                <h2 class="text-2xl font-semibold mb-4 text-center text-[#1e3d59]">Edit Book</h2>
+                <form action="/update-book/{{edit_id}}" method="post" class="space-y-4">
+                    <label class="block font-semibold">Book Name:</label>
+                    <input type="text" name="title" value="{{edit_book.title}}" class="w-full border border-gray-300 bg-white p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e3d59]">
+                    <label class="block font-semibold">Author Name:</label>
+                    <input type="text" name="author" value="{{edit_book.author}}" class="w-full border border-gray-300 bg-white p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e3d59]">
+                    <button type="submit" class="w-full bg-gradient-to-b from-gray-500 to-gray-800 hover:from-gray-600 hover:to-gray-900 transition duration-300 text-white p-3 rounded-lg">Update</button>
+                </form>
+            {{else}}
+                <h2 class="text-2xl font-semibold mb-4 text-center text-[#1e3d59]">Add New Book</h2>
+                <form action="/store-book" method="post" class="space-y-4">
+                    <label class="block font-semibold">Book Name:</label>
+                    <input type="text" name="title" class="w-full border border-gray-300 bg-white p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e3d59]" required>
+                    <label class="block font-semibold">Author Name:</label>
+                    <input type="text" name="author" class="w-full border border-gray-300 bg-white p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e3d59]" required>
+                    <button type="submit" class="w-full bg-gradient-to-b from-gray-500 to-gray-800 hover:from-gray-600 hover:to-gray-900 transition duration-300 text-white p-3 rounded-lg">Add</button>
+                </form>
+            {{/if}}
+        </div>
+        
+        <h2 class="text-3xl font-semibold mt-8 text-center text-[#1e3d59]">Book List</h2>
+        <div class="overflow-x-auto mt-6">
+            <table class="w-full bg-white shadow-lg rounded-lg overflow-hidden text-gray-900 border border-gray-300">
+                <thead class="bg-[#1e3d59] text-white">
+                    <tr>
+                        <th class="p-4">Book Name</th>
+                        <th class="p-4">Author</th>
+                        <th class="p-4 text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each books}}
+                        <tr class="border-b border-gray-300 hover:bg-[#c9d6df] transition duration-300">
+                            <td class="p-4">{{this.title}}</td>
+                            <td class="p-4">{{this.author}}</td>
+                            <td class="p-4 text-center">
+                                <a href="/?edit_id={{this._id}}" class="bg-gradient-to-b from-gray-500 to-gray-800 hover:from-gray-600 hover:to-gray-900 text-white px-4 py-2 rounded-lg transition duration-300">Edit</a>
+                                <a href="/?delete_id={{this._id}}" onclick="return confirm('Are you sure?')" class="bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 text-white px-4 py-2 rounded-lg transition duration-300">Delete</a>
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
